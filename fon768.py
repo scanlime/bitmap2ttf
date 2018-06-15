@@ -24,25 +24,27 @@ except ImportError:
     import Image
 
 def render(font, index):
-	im = Image.new('1', (8,8))
-	for y in range(8):
-		byte = font[y*0x60 + index]
-		for x in range(8):
-			if byte & (0x80 >> x):
-				im.paste(1, (x, y, x+1, y+1))
-	return im
+    im = Image.new('1', (8,8))
+    for y in range(8):
+        byte = font[y*0x60 + index]
+        for x in range(8):
+            if byte & (0x80 >> x):
+                im.paste(1, (x, y, x+1, y+1))
+    return im
 
 def fontGlyphs(font):
-	g = {}
-	for i in range(0x60):
-		g[0x20 + i] = render(font, i)
-	return g
+    g = {}
+    for i in range(0x60):
+        g[0x20 + i] = render(font, i)
+    return g
 
 def main():
     if len(sys.argv) != 3:
         sys.stderr.write("usage: %s input.fon output.(woff|ttf|...)\n" % sys.argv[0])
     else:
-    	convert(fontGlyphs(open(sys.argv[1], 'rb').read()), sys.argv[2])
+        # Rectangular pixels
+        width_adjust = 388 * 4/3.0 / 644
+        convert(fontGlyphs(open(sys.argv[1], 'rb').read()), sys.argv[2], par=width_adjust)
 
 if __name__ == '__main__':
     main()
