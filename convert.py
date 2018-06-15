@@ -63,7 +63,7 @@ def call_status(cmd):
 def convert(glyphs, name, par=1):
     path = tempfile.mkdtemp()
 
-    for i,v in glyphs.iteritems():
+    for i,v in glyphs.items():
         img = ImageOps.invert(v.convert("L"))
         polygons = outliner(img)
         (xdim, ydim) = img.size
@@ -80,7 +80,7 @@ def convert(glyphs, name, par=1):
     pe.write('SetTTFName(0x409, 6, "%s")\n' % name)
     pe.write('Reencode("unicode")\n')
 
-    for i,v in glyphs.iteritems():
+    for i,v in glyphs.items():
         (xdim, ydim) = v.size
         pe.write('SelectSingletons(UCodePoint(%d))\n' % i)
         pe.write('Import("%s/%05d.svg", 0)\n' % (path, i))
