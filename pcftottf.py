@@ -89,4 +89,4 @@ if __name__ == '__main__':
         glyphmap = {}
         for k,v in p.glyph.iteritems():
             glyphmap[k] = v[3]
-        convert(glyphmap, filename[:-4])
+        convert(glyphmap, filename[:-4]+'.ttf')

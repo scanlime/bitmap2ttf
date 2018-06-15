@@ -76,7 +76,7 @@ if __name__ == '__main__':
     for filename in sys.argv[1:]:
         f = AmigaFont(filename)
         f.test('hello')
-        convert(f.glyphs(), filename.split('/')[-2])
+        convert(f.glyphs(), filename.split('/')[-2]+'.ttf')
 
 
 

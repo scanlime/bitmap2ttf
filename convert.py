@@ -61,10 +61,7 @@ def call_status(cmd):
 
 
 def convert(glyphs, name, par=1):
-
-    ttf = name+'.ttf'
     path = tempfile.mkdtemp()
-    print path
 
     for i,v in glyphs.iteritems():
         img = ImageOps.invert(v.convert("L"))
@@ -73,7 +70,7 @@ def convert(glyphs, name, par=1):
         svg = path_to_svg(polygons, xdim, ydim, par)
         open(join(path, '%05d.svg' % i), 'w').write(svg)
 
-    pe = open(join(path, ttf+'.pe'), 'w')
+    pe = open(join(path, name+'.pe'), 'w')
     pe.write('New()\n')
     pe.write('SetFontNames("%s", "%s", "%s")\n' % (name, name, name))
     pe.write('SetTTFName(0x409, 1, "%s")\n' % name)
@@ -90,15 +87,10 @@ def convert(glyphs, name, par=1):
         pe.write('SetWidth(%d)\n' % int(par*xdim*1000/ydim))
         pe.write('SetVWidth(1000)\n')
 
-    print xdim, ydim
-
-    #pe.write('Save("%s")\n' % ttf)
-    pe.write('Generate("%s")\n' % ttf)
+    pe.write('Generate("%s")\n' % name)
     pe.close()
 
-    call_status('fontforge -script %s' % join(path, ttf+'.pe'))
+    call_status('fontforge -script %s' % join(path, name+'.pe'))
     shutil.rmtree(path)
-
-    print ttf
 
 
