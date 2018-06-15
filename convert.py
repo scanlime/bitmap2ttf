@@ -64,6 +64,7 @@ def convert(glyphs, name, par=1):
     path = tempfile.mkdtemp()
 
     for i,v in glyphs.items():
+        print("Glyph", i)
         img = ImageOps.invert(v.convert("L"))
         polygons = outliner(img)
         (xdim, ydim) = img.size
@@ -83,7 +84,7 @@ def convert(glyphs, name, par=1):
     for i,v in glyphs.items():
         (xdim, ydim) = v.size
         pe.write('SelectSingletons(UCodePoint(%d))\n' % i)
-        pe.write('Import("%s/%05d.svg", 0)\n' % (path, i))
+        pe.write('Import("%s/%05d.svg", 0, %d)\n' % (path, i, 16+8+2))
         pe.write('SetWidth(%d)\n' % int(par*xdim*1000/ydim))
         pe.write('SetVWidth(1000)\n')
 
@@ -91,6 +92,7 @@ def convert(glyphs, name, par=1):
     pe.close()
 
     call_status('fontforge -script %s' % join(path, name+'.pe'))
-    shutil.rmtree(path)
+    print(path)
+    #shutil.rmtree(path)
 
 

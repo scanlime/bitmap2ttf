@@ -53,10 +53,11 @@ def find_first(image):
     # not found...
     return (-1, -1)
 
+
 def outliner(orig_image):
-    orig_data = orig_image.load()
     image = ImageOps.expand(orig_image, 1, 255)
-    
+    winding_map = Image.new('1', image.size)
+
     polygons = []
 
     ds = [(1,0), (0,1), (-1,0), (0,-1)]
@@ -68,6 +69,7 @@ def outliner(orig_image):
         polygon = []
         d = 0
         (px, py) = find_first(image)
+        first_point = (px, py)
         if (px, py) == (-1, -1):
             # no more black pixels, terminate
             return polygons
@@ -98,15 +100,19 @@ def outliner(orig_image):
                 done = True
 
         invert_pixels(image, polygon)
+        invert_pixels(winding_map, polygon)
 
-        polygons.append([tuple(map(sum, zip(x,(-1,-1)))) for x in polygon])
+        polygon = [tuple(map(sum, zip(x,(-1,-1)))) for x in polygon]
 
+        if winding_map.getpixel(first_point) == 0:
+            polygon.reverse()
+
+        polygons.append(polygon)
 
 if __name__ == '__main__':
     import sys
     image = Image.open(sys.argv[1]).convert("L")
     polygons = outliner(image)
-    data = image.load()
     for p in polygons:
         print(p)
 
