@@ -21,7 +21,7 @@ class AmigaFont(object):
 
     def __init__(self, filename):
 
-        diskfont = file(filename).read()
+        diskfont = open(filename, 'rb').read()
 
         # get textfont struct (32 bytes)
         textfont = diskfont[110:142]
@@ -51,9 +51,9 @@ class AmigaFont(object):
             c = ord(b) - (self.lochar)
             d = self.charloc[c*4:(c+1)*4]
             (offs, width) = unpack(">HH", d)
-            print "char: %c addr: %d offs %d, width %d" % (b, c, offs, width)
+            print("char: %c addr: %d offs %d, width %d" % (b, c, offs, width))
             for n in range(self.ysize):
-                print self.rasterize(ord(self.chardata[(offs>>3)+(n*self.modulo)]), "*", " ")
+                print(self.rasterize(ord(self.chardata[(offs>>3)+(n*self.modulo)]), "*", " "))
 
     def bitmap(self, byte):
         c = byte - (self.lochar)

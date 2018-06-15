@@ -108,5 +108,5 @@ if __name__ == '__main__':
     polygons = outliner(image)
     data = image.load()
     for p in polygons:
-        print p
+        print(p)
 

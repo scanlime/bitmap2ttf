@@ -54,7 +54,7 @@ class PcfFontFileUnicode(PcfFontFile):
                     cu += 1
                 self.glyph[ch] = glyph
 
-        print c, "glyphs,", cu, "unicode."
+        print(c, "glyphs,", cu, "unicode.")
 
     def _load_encoding(self):
 
