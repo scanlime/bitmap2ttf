@@ -1,3 +1,10 @@
+Note from scanlime: I tried forking this and improving it a bit,
+but I think the approach is possibly a dead-end. The resulting fonts
+will self-intersect, and fixing this requires including some proper
+polygon subtraction code.
+
+---
+
 Bitmap2ttf converts (monochrome) bitmap fonts into ttf fonts.
 
 There are three parts:
